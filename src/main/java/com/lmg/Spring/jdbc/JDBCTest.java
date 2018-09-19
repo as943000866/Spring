@@ -115,7 +115,7 @@ public class JDBCTest {
 		
 		RowMapper rowMapper = new BeanPropertyRowMapper<>(Student.class);
 		
-		Student student = jdbcTemplate.queryForObject(sql, rowMapper, 1);
+		Student student = (Student) jdbcTemplate.queryForObject(sql, rowMapper, 1);
 		
 		System.out.println(student);
 		System.out.println("--------------");

@@ -18,6 +18,7 @@
 		<config>src/main/java/beans-aopSupplement-xml.xml</config>
 		<config>src/main/java/beans-jdbc.xml</config>
 		<config>src/main/java/ApplicationContext-hibernate.xml</config>
+		<config>src/main/java/ApplicationContext-Struct2.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

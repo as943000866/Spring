@@ -17,7 +17,7 @@ public class StudentDao {
 		
 		RowMapper rowMapper = new BeanPropertyRowMapper<>(Student.class);
 		
-		Student student = jdbcTemplate.queryForObject(sql, rowMapper,id);
+		Student student = (Student) jdbcTemplate.queryForObject(sql, rowMapper,id);
 		return student;
 	}
 }

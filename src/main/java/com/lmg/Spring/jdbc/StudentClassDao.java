@@ -25,7 +25,7 @@ public class StudentClassDao extends JdbcDaoSupport{
 		String sql = "SELECT id,name FROM StudentClass WHERE id = ?";
 		
 		RowMapper rowMapper = new BeanPropertyRowMapper<>(StudentClass.class);
-		StudentClass studentClass = getJdbcTemplate().queryForObject(sql, rowMapper, id);
+		StudentClass studentClass = (StudentClass) getJdbcTemplate().queryForObject(sql, rowMapper, id);
 		return studentClass;
 	}
 }
