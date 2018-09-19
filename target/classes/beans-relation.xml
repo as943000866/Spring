@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 
+		bean 配置的继承  parent
+		①:使用 parent 属性指定继承哪个 bean 的配置(除了 abstract ..)
+	 -->
+	<!-- 
+		抽象 bean abstact
+		①:通过 abstact 属性设置为 true 的 bean ,在 IOC 容器中为抽象的且不会被创建
+		②:如果 bean 没有设置 class 属性,则必须设置为抽象 bean 
+	 -->
+	<bean id="address" 
+	p:city="beiJing" p:street="WuDaoKou" abstract="true"></bean>
+
+	<bean id="address2" class="com.lmg.Spring.autowire.Address"
+	 p:street="DaZhongSi" parent="address"></bean>
+	
+	<bean id="car" class="com.lmg.Spring.autowire.Car"
+	p:brand="audi" p:price="300000"></bean>
+	<!-- 
+		bean 配置依赖特  depends-on
+		①:通过设置 depends-on 属性,配置对 bean 的依赖。IOC 容器会先创建被依赖的 bean
+	 -->
+	 <bean id="person" class="com.lmg.Spring.autowire.Person"
+	 p:name="Jerry" p:address-ref="address2" p:car-ref="car" depends-on="car"></bean>
+	
+</beans>

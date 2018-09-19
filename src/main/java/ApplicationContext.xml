@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+	<!-- 属性注入 -->
+	<bean id="car" class="com.lmg.Spring.Car">
+		<property name="brand" value="audi"></property>
+		<property name="crop" value="shanghai"></property>
+		<property name="price" value="300000"></property>
+	</bean>
+	<!-- 构造器注入 -->
+	<!-- 使用构造器注入属性值可以指定参数的位置和参数的类型!以区分重载的构造器 -->
+	<bean id="car1" class="com.lmg.Spring.Car">
+		<constructor-arg value="baoma" index="0"></constructor-arg>
+		<!-- 如果字面值包含特殊字符可以使用 <![CDATA[]]> 包裹起来 -->
+		<!-- 属性值也可以使用 value 子节点进行配置 -->
+		<constructor-arg index="1">
+			<value><![CDATA[<beijin>]]></value>
+		</constructor-arg>
+		<constructor-arg value="200000" type="double"></constructor-arg>
+	</bean>
+
+	<!-- 对象引用 -->
+	<bean id="person" class="com.lmg.Spring.Person">
+		<property name="name">
+			<value>zhangsan</value>
+		</property>
+		<property name="age" value="20"></property>
+		<!-- 可以使用 property 的 ref 属性建立 bean 之间的引用关系. -->
+		<!-- <property name="car" ref="car1"/> -->
+		<!-- <property name="car"> <ref bean="car1"/> </property> -->
+		<!-- 内部 bean, 不能被外部引用. 只能在内部使用 -->
+		<property name="car">
+			<bean class="com.lmg.Spring.Car">
+				<constructor-arg value="Ford"></constructor-arg>
+				<constructor-arg value="Changan"></constructor-arg>
+				<constructor-arg value="200000" type="double"></constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="person1" class="com.lmg.Spring.Person">
+		<constructor-arg>
+			<value>lisi</value>
+		</constructor-arg>
+		<constructor-arg value="19"></constructor-arg>
+		<!-- <constructor-arg ref="car"></constructor-arg> -->
+		<!-- 测试赋值 null -->
+		<!-- 
+		<constructor-arg>
+			<null />
+		</constructor-arg>
+		 -->
+		 <constructor-arg ref="car"></constructor-arg>
+		 <!-- 为级联属性赋值.注意: 属性需要初始化后才可以为级联属性赋值. 否则会有异常, 和Struts2 -->
+		 <property name="car.maxSpeed" value="250"></property>
+	</bean>
+
+	<!-- 测试如何配置集合属性 -->
+	<bean id="person2" class="com.lmg.Spring.Person1">
+		<property name="name" value="wangwu"></property>
+		<property name="age" value="28"></property>
+		<property name="cars">
+			<!-- 使用 list 节点为 List 类型的属性赋值 -->
+			<list>
+				<ref bean="car" />
+				<ref bean="car1" />
+				<bean class="com.lmg.Spring.Car">
+					<constructor-arg value="Ford"></constructor-arg>
+					<constructor-arg value="changan"></constructor-arg>
+					<constructor-arg value="200000" type="double"></constructor-arg>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="person3" class="com.lmg.Spring.Person1">
+		<constructor-arg name="name" value="zhaoliu"></constructor-arg>
+		<constructor-arg name="age" value="29"></constructor-arg>
+		<constructor-arg name="cars" ref="list1"></constructor-arg>
+	</bean>
+	<!-- 配合单例的集合 bean, 以供多个 bean 进行引用, 需要导入 util 命名空间 -->
+	<util:list id="list1">
+		<ref bean="car" />
+		<ref bean="car1" />
+	</util:list>
+	<!-- 通过 p 命名空间为 bean 的属性赋值, 需要先导入 p 命名空间. 相对于传统的配置方式更加简洁. -->
+	<bean id="person5" class="com.lmg.Spring.Person" p:name="Queen"
+	 p:age="30" p:car-ref="car"></bean>
+	<!-- 配置 Map 属性值 -->
+	<bean id="person4" class="com.lmg.Spring.Person2">
+		<constructor-arg name="name" value="zhaoliu"></constructor-arg>
+		<constructor-arg name="age" value="29"></constructor-arg>
+		<constructor-arg>
+			<!-- 使用 map 节点及 map 的 entry 子节点配置 Map 类型的成员变量 -->
+			<map>
+				<entry key="AA" value-ref="car1"></entry>
+				<entry key="CC" value-ref="car"></entry>
+			</map>	
+		</constructor-arg>
+	</bean>
+	
+	<!-- 配置 Properties 属性值 -->
+	<bean id="dataSource" class="com.lmg.Spring.DataSource">
+		<property name="properties">
+			<!-- 使用 props 和 prop 子节点来为 Properties 属性赋值 -->
+			<props>
+				<prop key="user">root</prop>
+				<prop key="password">1234</prop>
+				<prop key="jdbcUrl">jdbc:mysql:///test</prop>
+				<prop key="driverClass">com.mysql.jdbc.Driver</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

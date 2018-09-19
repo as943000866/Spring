@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 
+		singletion: scope 配置为 singletion,该 bean 在 IOC 是单例的 (spring 中默认是单例的)
+		prototype: scope 配置为 prototype,该 bean 每次被调用会创建一个对象 
+	 -->
+	<bean id="car" class="com.lmg.Spring.autowire.Car"
+	p:brand="Audi" p:price="300000" scope="prototype"></bean>
+</beans>
